@@ -25,17 +25,25 @@ export class FileController {
     params: UploadFileDTO,
     @Res() res,
   ) {
-    res.set({
-      ...generateContentType(file),
-      ...generateContentDisposition(file),
-    });
-
     const format = file.mimetype.split('/')[1];
+    // console.log('params', params);
     const transformedFileStream = this.fileService.transformFile(
       file.buffer,
-      format,
+      params.format || format,
       params,
     );
+
+    const contentType = params.format
+      ? `image/${params.format}`
+      : generateContentType(file)['Content-Type'];
+    const contentDisposition = params.format
+      ? `image/${params?.format}`
+      : generateContentDisposition(file)['Content-Disposition'];
+
+    res.set({
+      'Content-Type': contentType,
+      'Content-Disposition': contentDisposition,
+    });
 
     console.log('file size in mega bytes', file.size / 1000 / 1000);
 

@@ -1,4 +1,4 @@
-import { WebpOptions } from 'sharp';
+import { WebpOptions, FormatEnum, AvailableFormatInfo } from 'sharp';
 import {
   IsNumber,
   IsOptional,
@@ -7,6 +7,7 @@ import {
   IsInt,
   IsBoolean,
   IsArray,
+  IsEnum,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { QualityValidators } from './helpers';
@@ -65,4 +66,33 @@ export class UploadFileDTO implements WebpOptions {
   //
   @IsNumber({}, { each: true })
   delay?: number | number[] | undefined;
+  //
+  @IsOptional()
+  @IsEnum({
+    avif: 'avif',
+    // dz: 'dz',
+    // fits: 'fits',
+    gif: 'gif',
+    heif: 'heif',
+    // input: 'input',
+    jpeg: 'jpeg',
+    jpg: 'jpg',
+    // jp2: 'jp2',
+    // jxl: 'jxl',
+    // magick: 'magick',
+    // openslide: 'openslide',
+    // pdf: 'pdf',
+    png: 'png',
+    // ppm: 'ppm',
+    // raw: 'raw',
+    // svg: 'svg',
+
+    // these two need to be checked
+    // tiff: 'tiff',
+    // tif: 'tif',
+
+    // v: 'v',
+    webp: 'webp',
+  })
+  format?: keyof FormatEnum | AvailableFormatInfo;
 }
