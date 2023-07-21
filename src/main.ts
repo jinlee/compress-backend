@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const port = process.env.PORT || 4000;
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'debug', 'log', 'verbose'],
   });
@@ -25,6 +24,7 @@ async function bootstrap() {
       forbidUnknownValues: true,
     }),
   );
-  await app.listen(port);
+  const pebl = await(import('pebl'));
+  await pebl.service(app, "hey.pebl.rocks");
 }
 bootstrap();
